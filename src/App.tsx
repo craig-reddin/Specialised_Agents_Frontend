@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navigation from "./Navigation";
 import HomePage from "./HomePage";
@@ -15,6 +14,7 @@ function App() {
           <Route path="/chat_interface" element={<ChatInterface />} />
         </Routes>
       </div>
+      <Navigation />
     </Router>
   );
 }
