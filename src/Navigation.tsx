@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
-import AILogo from "./AIColabGen.png";
+import AILogo from "./images/AIColabGen.png";
 
 function Navigation() {
   return (
@@ -11,7 +11,7 @@ function Navigation() {
       {/* Displays the logo and links to the homepage */}
       <Navbar.Brand id="logo-text" href="/">
         {/* Image added to Navbar */}
-        <img src={AILogo} width="75" height="75" alt="Logo" />
+        <img src={AILogo} width="150" height="150" alt="Logo" />
       </Navbar.Brand>
 
       {/* Adds a toggle button for smaller screens */}
@@ -30,6 +30,12 @@ function Navigation() {
           </Nav.Link>
           <Nav.Link id="navlink" as={Link} to="/chat_interface">
             Chat
+          </Nav.Link>
+          <Nav.Link id="navlink" as={Link} to="/sign_in">
+            Sign In
+          </Nav.Link>
+          <Nav.Link id="navlink" as={Link} to="/previous_chat">
+            Previous Chat
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>
