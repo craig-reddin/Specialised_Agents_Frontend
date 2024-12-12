@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { saveNewUser } from "./APIServices"; // Import your saveNewUser function
+import { saveNewUser } from "./APIServices";
 
 function SignIn() {
   //www.webrecto.com/react/navigate-to-another-page-on-button-click-in-react
