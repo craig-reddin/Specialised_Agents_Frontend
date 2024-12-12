@@ -25,11 +25,15 @@ function SignIn() {
     e.preventDefault();
 
     try {
-      console.log(formData);
-      await saveNewUser(formData);
-      console.log("User saved successfully:");
-      alert("Sign In successful!");
-      navigate("/dashboard");
+      const response = await saveNewUser(formData);
+      console.log(response);
+      if (response == "Sign in was successful") {
+        console.log("User saved successfully:");
+        alert("Sign In successful!");
+        navigate("/dashboard");
+      } else {
+        alert("Sign unsuccessful! , please try again");
+      }
     } catch (error) {
       console.error("Error saving user:", error);
       alert("An error occurred while signing into your account.");

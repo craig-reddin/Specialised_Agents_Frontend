@@ -32,7 +32,14 @@ export async function storeChat(data: any) {
 
 export async function saveNewUser(data:any){
   try{
-    await axios.post("http://127.0.0.1:5000/create_new_user", data);
+    
+    const response = await axios.post(
+      "http://127.0.0.1:5000/sign_in_user",
+      data
+    );
+    console.log(response.data.message);
+    return response.data.response;
+
   }catch(error){
     console.log("Error saving new user")
   }
