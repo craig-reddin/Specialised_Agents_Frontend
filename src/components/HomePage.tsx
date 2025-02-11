@@ -1,6 +1,17 @@
-import Image from "./images/AutoGen.jpg";
+import { useEffect } from "react";
+import Image from "../images/AutoGen.jpg";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
+  const { isAuthenticated } = useAuth0();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+    }
+  });
+
   return (
     //Homepage Heading, image and slogan
     <div>
