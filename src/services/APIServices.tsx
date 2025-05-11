@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SignInData } from "../components/SignInDataInterface";
+import crypto from "crypto";
 
 //Post method to send prompt to agents
 export async function postQuestion(data: any) {
@@ -15,6 +15,7 @@ export async function postQuestion(data: any) {
   } catch (error) {
     console.log("API call failed");
     console.log(error);
+    return false;
   }
 }
 
@@ -23,25 +24,27 @@ export async function postTeamQuestion(data: any) {
   try {
     //Debugging log
     console.log("Making API call");
-    //make post request to python flask server - data is text area message
+    //make post request to python flask server
     const response = await axios.post("http://127.0.0.1:5000/chat_team", data);
     //log response for debugging
-    console.log(response);
     //return the response to be displayed on client interface
     return response;
   } catch (error) {
     console.log("API call failed");
     console.log(error);
+    return false;
   }
 }
 
 export async function storeChat(data: any) {
   try {
-    //make post request to python flask server - data is text area message
+    //make post request to python flask server
     await axios.post("http://127.0.0.1:5000/store_chat", data);
+    return true;
   } catch (error) {
     console.log("API call failed");
     console.error(error);
+    return false;
   }
 }
 
@@ -107,7 +110,6 @@ export async function createAgentAPICall(data: any) {
   }
 }
 
-
 export async function reviewSignIn(data: any) {
   try {
     const response = await axios.post(
@@ -153,6 +155,46 @@ export async function gatherTeams(data: any) {
   try {
     const response = await axios.post(
       "http://127.0.0.1:5000/gather_teams",
+      data
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log("API call failed");
+    console.error(error);
+  }
+}
+
+export async function deleteUserChat(data: any) {
+  try {
+    const response = await axios.post(
+      "http://127.0.0.1:5000/delete_chat",
+      data
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log("API call failed");
+    console.error(error);
+  }
+}
+
+const encryptData = (data: any, publicKey: any) => {
+  const encryptedData = crypto.publicEncrypt(
+    {
+      key: publicKey,
+      padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+      oaepHash: "sha256",
+    },
+    Buffer.from(data)
+  );
+  return encryptedData.toString("base64");
+};
+
+export async function deleteUser(data: any) {
+  try {
+    const response = await axios.post(
+      "http://127.0.0.1:5000/delete_user",
       data
     );
     console.log(response.data);

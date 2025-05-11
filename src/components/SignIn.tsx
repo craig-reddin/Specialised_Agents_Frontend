@@ -4,16 +4,23 @@ import { useAuth } from "../services/AuthContext";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function SignIn() {
+  //Router hook to navigate to dashboard
   const navigate = useNavigate();
+  //assigning value to useAuth method
   const { login } = useAuth();
+  //Auth0 hooks, login and redirect to dashboard, check user is authenticated
   const { loginWithRedirect, isAuthenticated } = useAuth0(); // Auth0 hooks
 
   // Redirect if the user is authenticated
   useEffect(() => {
+    //async function to log user in
     const logUserIn = async () => {
+      //if the user isnt authenticated, log them in
       if (!isAuthenticated) {
         login();
-        await loginWithRedirect(); // Redirect to Auth0 login page
+
+        // Redirect to Auth0 login page
+        await loginWithRedirect();
       }
     };
     logUserIn();

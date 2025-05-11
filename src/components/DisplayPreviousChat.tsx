@@ -12,6 +12,7 @@ function DisplayPreviousChat() {
   useEffect(() => {
     async function fetchChat() {
       try {
+        console.log(chatName);
         //call api services - await is a key word when using an asyncronous function.
         const chatDataReturned = await gatherChat(chatName);
         //set the chat data to chatDataReturned

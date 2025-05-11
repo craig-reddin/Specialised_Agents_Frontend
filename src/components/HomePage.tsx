@@ -7,6 +7,7 @@ function HomePage() {
   const { isAuthenticated } = useAuth0();
   const navigate = useNavigate();
   useEffect(() => {
+    //check if the user is authenticated and if so , navigate to the dashboar. May change this as a user may want to visit the home page.
     if (isAuthenticated) {
       navigate("/dashboard");
     }

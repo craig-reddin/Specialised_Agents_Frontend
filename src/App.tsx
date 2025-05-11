@@ -5,7 +5,6 @@ import SignIn from "./components/SignIn.tsx";
 import DisplayPreviousChat from "./components/DisplayPreviousChat.tsx";
 import ChatInterface from "./components/ChatInterface.tsx";
 import Dashboard from "./components/Dashboard.tsx";
-// import Footer from "./components/Footer.tsx";
 import CreateTeam from "./components/CreateTeam.tsx";
 import CreateAgent from "./components/CreateAgent.tsx";
 import PreviousChatsDashboard from "./components/PreviousChatsDashboard.tsx";
@@ -13,6 +12,8 @@ import { AuthProvider } from "./services/AuthContext.tsx";
 import "./app.css";
 import SelectTeam from "./components/SelectTeam.tsx";
 import TeamChatInterface from "./components/TeamChatInterface.tsx";
+import DeleteAccount from "./components/DeleteAccount.tsx";
+import ChatInterfaceWebsockets from "./components/ChatInterfaceWebsockets.tsx";
 
 function App() {
   return (
@@ -37,14 +38,17 @@ function App() {
               path="/team_chat_interface"
               element={<TeamChatInterface />}
             />
-
+            <Route path="/delete_user" element={<DeleteAccount />} />
             <Route
               path="/previous_chat_dashboard"
               element={<PreviousChatsDashboard />}
             />
+            <Route
+              path="/chat_interface_web_socket"
+              element={<ChatInterfaceWebsockets />}
+            />
           </Routes>
         </div>
-        {/* <Footer /> */}
       </Router>
     </AuthProvider>
   );

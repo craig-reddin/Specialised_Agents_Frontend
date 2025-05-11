@@ -1,31 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { postTeamQuestion, storeChat } from "../services/APIServices";
-import AIImage1 from "../images/CI11.png";
-import AIImage2 from "../images/CI2.png";
-import AIImage3 from "../images/CI3.png";
+import AIImage1 from "../images/DataAnalysis.mp4";
+import AIImage2 from "../images/typing.mp4";
+import AIImage3 from "../images/travel.mp4";
+
 import Sidebar from "./SideBar";
-
-// Function to format and return response as a string
-function ChangeResponseFormat(response: any) {
-  let formattedResponse = "";
-
-  // Loop through the response array and append each message
-  response.data.response.forEach((msg: string) => {
-    //adding divs around each message to ensure each message is styled accordingly.
-    formattedResponse += `<div id="GeneratedResponsesContainer">${msg}</div><br /><br />`;
-  });
-  // replace all \n with <br /> g is used to imply chang all \n values
-  return formattedResponse.replace(/\n/g, "<br />");
-}
-
-const agentOne = sessionStorage.getItem("CurrentAgentOne");
-const agentTwo = sessionStorage.getItem("CurrentAgentTwo");
-const agentThree = sessionStorage.getItem("CurrentAgentThree");
+import ChangeResponseFormat from "./ResponseFormat";
+import "../Animation.css";
 
 function TeamChatInterface() {
+  const [agentOne, setAgentOne] = useState("");
+  const [agentTwo, setAgentTwo] = useState("");
+  const [agentThree, setAgentThree] = useState("");
+
   //useState hook to change form data state
   const [formData, setFormData] = useState({
     questionForm: "",
@@ -33,7 +23,17 @@ function TeamChatInterface() {
   const [loading, setLoading] = useState<boolean>(false);
 
   //useState hook to change the responseHTML
-  const [responseHtml, setResponseHtml] = useState<string>(""); // State to store the HTML for responses
+  const [responseHtml, setResponseHtml] = useState<string>("");
+
+  useEffect(() => {
+    loader();
+  }, []);
+
+  const loader = () => {
+    setAgentOne(sessionStorage.getItem("CurrentAgentOne") || "");
+    setAgentTwo(sessionStorage.getItem("CurrentAgentTwo") || "");
+    setAgentThree(sessionStorage.getItem("CurrentAgentThree") || "");
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -46,8 +46,6 @@ function TeamChatInterface() {
   const generateSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    
-
     const data = {
       message: formData.questionForm,
       agentOne: agentOne,
@@ -58,7 +56,10 @@ function TeamChatInterface() {
     try {
       setLoading(true);
       const response = await postTeamQuestion(data);
-      console.log(response);
+      if (!response) {
+        setLoading(false);
+        return;
+      }
       const formattedResponse = ChangeResponseFormat(response);
 
       // Update the state with the formatted response HTML
@@ -68,46 +69,98 @@ function TeamChatInterface() {
       const formattedData = {
         message: formattedResponse,
         email: email,
-        chatName: formData.questionForm,
+        chat_name: formData.questionForm,
       };
       // asynchronous function to store the data.
 
-      await storeChat(formattedData);
-      setLoading(false);
+      const response2 = await storeChat(formattedData);
+
+      if (!response2) {
+        setLoading(false);
+        return;
+      }
+
+      setFormData({
+        questionForm: "",
+      });
     } catch (error) {
       console.error("Error generating response:", error);
+      //Clear the input field after sending
     }
   };
 
   return (
     <div id="chat-interface-container">
       <Sidebar />
-      <h1 id="chat-interface-heading">Talk To Our Coding Agent</h1>
+      <h1 id="chat-interface-heading">
+        Chat with your Configured Team of Agents
+      </h1>
       <div id="chat-interface-image-container">
-        <img src={AIImage3} className="ai-coder-image" alt="Python Image" />
-        <img src={AIImage2} className="ai-coder-image" alt="HTML & CSS Image" />
-        <img src={AIImage1} className="ai-coder-image" alt="Script Image" />
+        <video loop autoPlay muted className="ai-coder-image" src={AIImage2}>
+          Your browser does not support the video tag.
+        </video>
+        <video loop autoPlay muted className="ai-coder-image" src={AIImage1}>
+          Your browser does not support the video tag.
+        </video>
+        <video loop autoPlay muted className="ai-coder-image" src={AIImage3}>
+          Your browser does not support the video tag.
+        </video>
       </div>
-
+      <br></br>
+      <br></br>
       {/* Container to display responses */}
       <div
         dangerouslySetInnerHTML={{
           __html: responseHtml,
         }}
       ></div>
-      {/* https://uiverse.io/Z4drus/average-lizard-53 */}
       {/* Display loading message when waiting for response */}
       {loading && (
-        <div className="loading-message">
-          <div className="container">
-            <div className="loader">
-              <div className="crystal"></div>
-              <div className="crystal"></div>
-              <div className="crystal"></div>
-              <div className="crystal"></div>
-              <div className="crystal"></div>
-              <div className="crystal"></div>
-            </div>
+        <div className="animation-example">
+          <div className="item">
+            <div className="line"></div>
+            <div className="dot"></div>
+            <div className="circle"></div>
+          </div>
+          <div className="item">
+            <div className="line"></div>
+            <div className="dot"></div>
+            <div className="circle"></div>
+          </div>
+          <div className="item">
+            <div className="line"></div>
+            <div className="dot"></div>
+            <div className="circle"></div>
+          </div>
+          <div className="item">
+            <div className="line"></div>
+            <div className="dot"></div>
+            <div className="circle"></div>
+          </div>
+          <div className="item -type2">
+            <div className="line"></div>
+            <div className="dot"></div>
+            <div className="circle"></div>
+          </div>
+          <div className="item -type2">
+            <div className="line"></div>
+            <div className="dot"></div>
+            <div className="circle"></div>
+          </div>
+          <div className="item -type2">
+            <div className="line"></div>
+            <div className="dot"></div>
+            <div className="circle"></div>
+          </div>
+          <div className="item -type2">
+            <div className="line"></div>
+            <div className="dot"></div>
+            <div className="circle"></div>
+          </div>
+          <div className="center">
+            <div className="circle"></div>
+            <div className="circle"></div>
+            <div className="circle"></div>
           </div>
         </div>
       )}
